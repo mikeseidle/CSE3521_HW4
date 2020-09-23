@@ -21,7 +21,7 @@ function is_terminal(board) {
     //Check the other 9 states that are wins
 
     for(j =0; j <= 6; j++){
-      if(board[j] == -1){
+      if(board[j] != -1){
         if(j == 0 || j == 3 || j == 6){
           let a = j;
           let b = j +1;
