@@ -80,18 +80,22 @@ function is_terminal(board) {
   
   // Checking base case if the board is full and game is a tie
   let isFull = true;
-  for(i = 0 ; i < 9; i++){
+  let count = 0;
+  while (isFull && i < 9) {
     if(board[i] == -1){
       isFull = false;
+    } else {
+      count++;
     }
   }
-  if(isFull){
+  
+  if(isFull) {
     return true;
   }
 
   //Check the other 9 states that are wins
 
-  for(j =0; j <= 6; j++){
+  for(var j = 0; j <= 6; j++){
     
     if(board[j] != -1){
       if(j == 0 || j == 3 || j == 6){
@@ -153,6 +157,71 @@ function utility(board,player) {
   * Hint: You can find the number of turns by counting the number of non-blank spaces
   *       (Or the number of turns remaining by counting blank spaces.)
   ***********************/
+
+  var numBlankSpaces = 0;
+  for (var i = 0; i < 9; i++) {
+    if (board[i] == -1) {
+      numBlankSpaces++;
+    }
+  }
+
+  let a = -1;
+  let b = -1;
+  let c = -1;
+  let j = 0;
+  setFound = false;
+
+  while (setFound == false && j <= 6) {
+    
+    if(board[j] != -1){
+      if(j == 0 || j == 3 || j == 6){
+        a = j;
+        b = j +1;
+        c = j+2;
+        if(board[a] == board[b] && board[b] == board[c] && board[a]== board[c]){
+          setFound = true;
+        }
+      }
+      if(j == 0 || j == 1 || j == 2){
+        a = j;
+        b = j +3;
+        c = j+6;
+        if(board[a] == board[b] && board[b] == board[c] && board[a]== board[c]){
+          setFound = true;
+        }
+      }
+      if(j == 0){
+        a = j;
+        b = j +4;
+        c = j+8;
+        if(board[a] == board[b] && board[b] == board[c] && board[a]== board[c]){
+          setFound = true;
+        }
+      }
+      if(j == 2){
+        a = j;
+        b = j +2;
+        c = j+4;
+        if(board[a] == board[b] && board[b] == board[c] && board[a]== board[c]){
+          setFound = true;
+        }
+      }
+    }
+    j++;
+  }
+
+  let score = 0;
+
+  if (setFound) {
+    if (a == player) {
+      score = numBlankSpaces + 1;
+    } else {
+      score = 0 - (numBlankSpaces + 1);
+    }
+  } 
+  
+  return score;
+  
 }
 
 function tictactoe_minimax_alphabeta(board,cpu_player,cur_player,alpha,beta) {
