@@ -21,37 +21,38 @@ function is_terminal(board) {
     //Check the other 9 states that are wins
 
     for(j =0; j <= 6; j++){
-      
-      if(j == 0 || j == 3 || j == 6){
-        let a = j;
-        let b = j +1;
-        let c = j+2;
-        if(board[a] == board[b] && board[b] == board[c] && board[a]== board[c]){
-          return true;
+      if(board[j] == -1){
+        if(j == 0 || j == 3 || j == 6){
+          let a = j;
+          let b = j +1;
+          let c = j+2;
+          if(board[a] == board[b] && board[b] == board[c] && board[a]== board[c]){
+            return true;
+          }
         }
-      }
-      if(j == 0 || j == 1 || j == 2){
-        let a = j;
-        let b = j +3;
-        let c = j+6;
-        if(board[a] == board[b] && board[b] == board[c] && board[a]== board[c]){
-          return true;
+        if(j == 0 || j == 1 || j == 2){
+          let a = j;
+          let b = j +3;
+          let c = j+6;
+          if(board[a] == board[b] && board[b] == board[c] && board[a]== board[c]){
+            return true;
+          }
         }
-      }
-      if(j == 0){
-        let a = j;
-        let b = j +4;
-        let c = j+8;
-        if(board[a] == board[b] && board[b] == board[c] && board[a]== board[c]){
-          return true;
+        if(j == 0){
+          let a = j;
+          let b = j +4;
+          let c = j+8;
+          if(board[a] == board[b] && board[b] == board[c] && board[a]== board[c]){
+            return true;
+          }
         }
-      }
-      if(j == 2){
-        let a = j;
-        let b = j +2;
-        let c = j+4;
-        if(board[a] == board[b] && board[b] == board[c] && board[a]== board[c]){
-          return true;
+        if(j == 2){
+          let a = j;
+          let b = j +2;
+          let c = j+4;
+          if(board[a] == board[b] && board[b] == board[c] && board[a]== board[c]){
+            return true;
+          }
         }
       }
 
