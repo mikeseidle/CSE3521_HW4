@@ -30,7 +30,9 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
   *   score: The best score that can be gotten from the provided game state
   *   move: The move (location on board) to get that score
   ***********************************************************/
-
+ console.log("Board: "+ board);
+ console.log("CPU:  " + cpu_player);
+ console.log("CUR: " + cur_player);
   //BASE CASE
   if(is_terminal(board)) //Stop if game is over
     return {
@@ -46,7 +48,8 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
     let new_board=board.slice(0); //Copy
     new_board[move]=cur_player; //Apply move
     //Successor state: new_board
-
+    console.log("Move: "+ move);
+    console.log("New Board: "+ new_board);
     //RECURSION
     // What will my opponent do if I make this move?
     let results=tictactoe_minimax(new_board,cpu_player,1-cur_player);
@@ -59,13 +62,18 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
     *
     * Hint: Should you find yourself in need of a very large number, try Infinity or -Infinity
     ***********************/
+
+    /*
+    We need to take the orginal board and generate all possible moves and from those moves
+    see how many moves it would take to win 
+    */
   }
 
   //Return results gathered from all sucessors (moves).
   //Which was the "best" move?  
   return {
-    move: []/* What do you return here? */,
-    score: []/* And here? */
+    move: 0/* What do you return here? */,
+    score: 0/* And here? */
   };
 }
 
@@ -81,8 +89,8 @@ function is_terminal(board) {
   // Checking base case if the board is full and game is a tie
   let isFull = true;
   let count = 0;
-  while (isFull && i < 9) {
-    if(board[i] == -1){
+  while (isFull && count < 9) {
+    if(board[count] == -1){
       isFull = false;
     } else {
       count++;
