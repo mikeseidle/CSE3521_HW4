@@ -34,6 +34,7 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
  console.log("CPU:  " + cpu_player);
  console.log("CUR: " + cur_player);
   //BASE CASE
+  //track score here?
   if(is_terminal(board)) //Stop if game is over
     return {
       move:null,
@@ -42,6 +43,7 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
 
   ++helper_expand_state_count; //DO NOT REMOVE
   //GENERATE SUCCESSORS
+
   for(let move of move_expand_order) { //For each possible move (i.e., action)
     if(board[move]!=-1) continue; //Already taken, can't move here (i.e., successor not valid)
     
@@ -53,7 +55,8 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
     //RECURSION
     // What will my opponent do if I make this move?
     let results=tictactoe_minimax(new_board,cpu_player,1-cur_player);
-
+    // get new score?
+    // compare to old score? if better replace and update move?
     //MINIMAX
     /***********************
     * TASK: Implement minimax here. (What do you do with results.move and results.score ?)
