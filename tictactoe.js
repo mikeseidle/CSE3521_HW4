@@ -46,8 +46,13 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
       score:utility(board,cpu_player) //How good was this result for us?
     }
 
+    max_score = -Infinity;
+    max_move = null;
+    min_score = Infinity;
+    min_move = null;
+
   ++helper_expand_state_count; //DO NOT REMOVE
-  //GENERATE SUCCESSORS/
+  //GENERATE SUCCESSORS//
   for(let move of move_expand_order) { //For each possible move (i.e., action)
     if(board[move]!=-1) continue; //Already taken, can't move here (i.e., successor not valid)
     
@@ -62,9 +67,19 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
 
     // get new score?
     // call utility function for both players?
-    let cpu_score = utility(new_board,cpu_player);
-    let cur_score = utility(new_board,cur_player);
+    // let cpu_score = utility(new_board,cpu_player);
+    // let cur_score = utility(new_board,cur_player);
     // compare to old score? if better replace and update move?
+
+    if(cur_player == cpu_player){
+      if (results.score > max_score){
+        max_score = results.score;
+        max_move = move;
+      }
+    } 
+    else {
+      
+    }
 
     //MINIMAX
     /***********************
@@ -84,8 +99,10 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
   //Return results gathered from all sucessors (moves).
   //Which was the "best" move?  
   return {
-    move: keeper.temp_move/* What do you return here? */,
-    score: keeper.temp_score/* And here? */
+    // if cpu player return max_socre/move
+    // if not cpu return min
+    // move: keeper.temp_move/* What do you return here? */,
+    // score: keeper.temp_score/* And here? */
   };
 }
 
