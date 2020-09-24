@@ -30,16 +30,12 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
   *   score: The best score that can be gotten from the provided game state
   *   move: The move (location on board) to get that score
   ***********************************************************/
- console.log("Board: "+ board);
- console.log("CPU:  " + cpu_player);
- console.log("CUR: " + cur_player);
+ //console.log("Board: "+ board);
+ //console.log("CPU:  " + cpu_player);
+ //console.log("CUR: " + cur_player);
   //BASE CASE
   //track score here?
-  let keeper = {
-    temp_move: 1,
-    temp_score: 0
-  };
-
+  
   if(is_terminal(board)) //Stop if game is over
     return {
       move:null,
@@ -59,26 +55,25 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
     let new_board=board.slice(0); //Copy
     new_board[move]=cur_player; //Apply move
     //Successor state: new_board
-    console.log("Move: "+ move);
-    console.log("New Board: "+ new_board);
+    //console.log("Move: "+ move);
+    //console.log("New Board: "+ new_board);
     //RECURSION
     // What will my opponent do if I make this move?
     let results=tictactoe_minimax(new_board,cpu_player,1-cur_player);
 
-    // get new score?
-    // call utility function for both players?
-    // let cpu_score = utility(new_board,cpu_player);
-    // let cur_score = utility(new_board,cur_player);
-    // compare to old score? if better replace and update move?
-
     if(cur_player == cpu_player){
       if (results.score > max_score){
+        
         max_score = results.score;
         max_move = move;
       }
     } 
     else {
-      
+      if(results.score < min_score){
+        
+        min_score = results.score;
+        min_move = move;
+      }
     }
 
     //MINIMAX
@@ -98,12 +93,26 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
 
   //Return results gathered from all sucessors (moves).
   //Which was the "best" move?  
-  return {
-    // if cpu player return max_socre/move
-    // if not cpu return min
-    // move: keeper.temp_move/* What do you return here? */,
-    // score: keeper.temp_score/* And here? */
-  };
+  // if cpu player return max_socre/move
+      // if not cpu return min
+      // move: keeper.temp_move/* What do you return here? */,
+      // score: keeper.temp_score/* And here? */
+      
+  if(cur_player == cpu_player){
+    console.log("CPU Move: "+ max_move+"CPU Score: "+max_score);
+    return {
+      
+      move: max_move,
+      score: max_score
+    };
+  } 
+  else {
+    console.log("CRU Move: "+ min_move+"CRU Score: "+min_score);
+   return {
+      move: min_move,
+      score: min_score
+   };
+  }
 }
 
 function is_terminal(board) {
@@ -248,14 +257,35 @@ function utility(board,player) {
   }
 
   let score = 0;
-
+  let num_moves =0;
   if (setFound) {
-    if (a == player) {
-      score = numBlankSpaces + 1;
-    } else {
-      score = 0 - (numBlankSpaces + 1);
+    if (board[a] == player) {
+       num_moves = 9 - numBlankSpaces;
+       console.log(num_moves);
+       if(num_moves >= 0 && num_moves <= 2){
+         score = 1;
+       }else if(num_moves > 2 && num_moves < 6){
+          score = 3;
+       }else{
+          score = 5;
+       }
+       console.log("Score for positive: "+  score);
+    } 
+    else {
+      num_moves = 9 - numBlankSpaces;
+      console.log(num_moves);
+       if(num_moves >= 0 && num_moves <= 2){
+         score = -1;
+       }else if(num_moves > 2 && num_moves < 6){
+          score = -3;
+       }else{
+          score = -5;
+       }
+       console.log("Score for negative: "+  score);
     }
   } 
+
+  
   
   return score;
   
