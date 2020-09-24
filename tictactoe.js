@@ -36,7 +36,7 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
   //BASE CASE
   //track score here?
   let keeper = {
-    temp_move: 0,
+    temp_move: 1,
     temp_score: 0
   };
 
@@ -59,9 +59,13 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
     //RECURSION
     // What will my opponent do if I make this move?
     let results=tictactoe_minimax(new_board,cpu_player,1-cur_player);
+
     // get new score?
     // call utility function for both players?
+    let cpu_score = utility(new_board,cpu_player);
+    let cur_score = utility(new_board,cur_player);
     // compare to old score? if better replace and update move?
+
     //MINIMAX
     /***********************
     * TASK: Implement minimax here. (What do you do with results.move and results.score ?)
