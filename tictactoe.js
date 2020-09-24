@@ -47,8 +47,7 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
     }
 
   ++helper_expand_state_count; //DO NOT REMOVE
-  //GENERATE SUCCESSORS
-
+  //GENERATE SUCCESSORS/
   for(let move of move_expand_order) { //For each possible move (i.e., action)
     if(board[move]!=-1) continue; //Already taken, can't move here (i.e., successor not valid)
     
