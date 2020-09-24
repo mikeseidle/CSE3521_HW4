@@ -35,6 +35,11 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
  console.log("CUR: " + cur_player);
   //BASE CASE
   //track score here?
+  let keeper = {
+    temp_move: 0,
+    temp_score: 0
+  };
+
   if(is_terminal(board)) //Stop if game is over
     return {
       move:null,
@@ -56,6 +61,7 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
     // What will my opponent do if I make this move?
     let results=tictactoe_minimax(new_board,cpu_player,1-cur_player);
     // get new score?
+    // call utility function for both players?
     // compare to old score? if better replace and update move?
     //MINIMAX
     /***********************
@@ -75,8 +81,8 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
   //Return results gathered from all sucessors (moves).
   //Which was the "best" move?  
   return {
-    move: 0/* What do you return here? */,
-    score: 0/* And here? */
+    move: keeper.temp_move/* What do you return here? */,
+    score: keeper.temp_score/* And here? */
   };
 }
 
