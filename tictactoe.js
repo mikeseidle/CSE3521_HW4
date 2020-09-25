@@ -42,6 +42,7 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
       score:utility(board,cpu_player) //How good was this result for us?
     }
 
+    // Initialize max and min scores and moves
     max_score = -Infinity;
     max_move = null;
     min_score = Infinity;
@@ -61,6 +62,7 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
     // What will my opponent do if I make this move?
     let results=tictactoe_minimax(new_board,cpu_player,1-cur_player);
 
+    // Player has won at this point
     if(cur_player == cpu_player){
       if (results.score > max_score){
         
@@ -97,7 +99,8 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
       // if not cpu return min
       // move: keeper.temp_move/* What do you return here? */,
       // score: keeper.temp_score/* And here? */
-      
+  
+  // Finds next best move for CPU player
   if(cur_player == cpu_player){
     console.log("CPU Move: "+ max_move+"CPU Score: "+max_score);
     return {
@@ -105,13 +108,12 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
       move: max_move,
       score: max_score
     };
-  } 
-  else {
+  else { // if current player is human player
     console.log("CRU Move: "+ min_move+"CRU Score: "+min_score);
    return {
       move: min_move,
       score: min_score
-   };
+    };
   }
 }
 
@@ -300,6 +302,97 @@ function tictactoe_minimax_alphabeta(board,cpu_player,cur_player,alpha,beta) {
   *
   * Hint: Make sure you update the recursive function call to call this function!
   ***********************/
+ if(is_terminal(board)) //Stop if game is over
+  return {
+    move:null,
+    score:utility(board,cpu_player) //How good was this result for us?
+  }
+
+ // Initialize max and min scores and moves
+ max_score = -Infinity;
+ max_move = null;
+ min_score = Infinity;
+ min_move = null;
+
+++helper_expand_state_count; //DO NOT REMOVE
+//GENERATE SUCCESSORS//
+for(let move of move_expand_order) { //For each possible move (i.e., action)
+ if(board[move]!=-1) continue; //Already taken, can't move here (i.e., successor not valid)
+ 
+ let new_board=board.slice(0); //Copy
+ new_board[move]=cur_player; //Apply move
+ //Successor state: new_board
+ //console.log("Move: "+ move);
+ //console.log("New Board: "+ new_board);
+ //RECURSION
+ // What will my opponent do if I make this move?
+ let results=tictactoe_minimax(new_board,cpu_player,1-cur_player, alpha, beta);
+
+ // Player has won at this point
+ // Finds next best move for CPU player
+ if(cur_player == cpu_player){
+   if (results.score > max_score){
+     max_score = results.score;
+     max_move = move;
+   }
+   if (max_score > alpha) {
+    alpha = max_score; // if new "best" (highest) possible move for CPU player (MAX)
+   }
+
+ } 
+ else {
+   if(results.score < min_score){
+     
+     min_score = results.score;
+     min_move = move; // if new "best" (lowest) possible move for human player (MIN)
+   }
+
+   if (min_score < beta) {
+    beta = min_score;
+   }
+   
+ }
+
+ // Prune possible moves in tree if min's guaranteed value for MAX is less than 
+ // alpha (CPU player or MAX's possible move) since we know MIN will not move to 
+ // a location where MAX has the chance to get a higher score
+ if (beta <= alpha) {
+  break;
+}
+
+ //MINIMAX
+ /***********************
+ * TASK: Implement minimax here. (What do you do with results.move and results.score ?)
+ * 
+ * Hint: You will need a little code outside the loop as well, but the main work goes here.
+ *
+ * Hint: Should you find yourself in need of a very large number, try Infinity or -Infinity
+ ***********************/
+
+ /*
+ We need to take the orginal board and generate all possible moves and from those moves
+ see how many moves it would take to win 
+ */
+}
+
+   
+if(cur_player == cpu_player){
+ console.log("CPU Move: "+ max_move+"CPU Score: "+max_score);
+ return {
+   
+   move: max_move,
+   score: max_score
+ };
+} 
+else { // if current player is human player
+ console.log("CRU Move: "+ min_move+"CRU Score: "+min_score);
+return {
+   move: min_move,
+   score: min_score
+ };
+}
+ 
+
 }
 
 function debug(board,human_player) {
