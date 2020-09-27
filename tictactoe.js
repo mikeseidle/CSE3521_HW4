@@ -1,12 +1,10 @@
 //Define the order in which to examine/expand possible moves
 //(This affects alpha-beta pruning performance)
-let move_expand_order=[0,1,2,3,4,5,6,7,8]; //Naive (linear) ordering
-//let move_expand_order=[4,0,1,2,3,5,6,7,8]; //Better ordering?
+// let move_expand_order=[0,1,2,3,4,5,6,7,8]; //Naive (linear) ordering
+let move_expand_order=[4,0,1,2,3,5,6,7,8]; //Better ordering?
+//let move_expand_order=[4,0,2,6,8,1,3,5,7]
 
-/////////////////////////////////////////////////////////////////////////////
-
-function tictactoe_minimax(board,cpu_player,cur_player) {
-  /***********************************************************
+/***********************************************************
   * board: game state, an array representing a tic-tac-toe board
   * The positions correspond as follows
   * 0|1|2
@@ -30,12 +28,9 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
   *   score: The best score that can be gotten from the provided game state
   *   move: The move (location on board) to get that score
   ***********************************************************/
- //console.log("Board: "+ board);
- //console.log("CPU:  " + cpu_player);
- //console.log("CUR: " + cur_player);
-  //BASE CASE
-  //track score here?
-  
+
+function tictactoe_minimax(board,cpu_player,cur_player) {
+
   if(is_terminal(board)) //Stop if game is over
     return {
       move:null,
@@ -56,13 +51,12 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
     let new_board=board.slice(0); //Copy
     new_board[move]=cur_player; //Apply move
     //Successor state: new_board
-    //console.log("Move: "+ move);
-    //console.log("New Board: "+ new_board);
+
     //RECURSION
     // What will my opponent do if I make this move?
     let results=tictactoe_minimax(new_board,cpu_player,1-cur_player);
 
-    // Player has won at this point
+    // Current player is CPU player (maximizing player)
     if(cur_player == cpu_player){
       if (results.score > max_score){
         
@@ -70,6 +64,7 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
         max_move = move;
       }
     } 
+    // Current player is human player (minimizing player)
     else {
       if(results.score < min_score){
         
@@ -95,12 +90,8 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
 
   //Return results gathered from all sucessors (moves).
   //Which was the "best" move?  
-  // if cpu player return max_socre/move
-      // if not cpu return min
-      // move: keeper.temp_move/* What do you return here? */,
-      // score: keeper.temp_score/* And here? */
   
-  // Finds next best move for CPU player
+  // Runs if current player is CPU player (maximizer)
   if(cur_player == cpu_player){
     console.log("CPU Move: "+ max_move+"CPU Score: "+max_score);
     return {
@@ -108,7 +99,7 @@ function tictactoe_minimax(board,cpu_player,cur_player) {
       move: max_move,
       score: max_score
     };
-  else { // if current player is human player
+  } else { // Runs if current player is human player (minimizer)
     console.log("CRU Move: "+ min_move+"CRU Score: "+min_score);
    return {
       move: min_move,
@@ -146,6 +137,8 @@ function is_terminal(board) {
   for(var j = 0; j <= 6; j++){
     
     if(board[j] != -1){
+
+      // Searches for row winning state
       if(j == 0 || j == 3 || j == 6){
         let a = j;
         let b = j +1;
@@ -154,6 +147,8 @@ function is_terminal(board) {
           return true;
         }
       }
+
+      // Searches for column winning state
       if(j == 0 || j == 1 || j == 2){
         let a = j;
         let b = j +3;
@@ -162,6 +157,8 @@ function is_terminal(board) {
           return true;
         }
       }
+
+      // Searches for top left to bottom right diagonal winning state
       if(j == 0){
         let a = j;
         let b = j +4;
@@ -170,6 +167,8 @@ function is_terminal(board) {
           return true;
         }
       }
+
+      // Searches for top right to bottom left diagonal winning state
       if(j == 2){
         let a = j;
         let b = j +2;
@@ -222,6 +221,8 @@ function utility(board,player) {
   while (setFound == false && j <= 6) {
     
     if(board[j] != -1){
+
+      // Searches for row winning state
       if(j == 0 || j == 3 || j == 6){
         a = j;
         b = j +1;
@@ -230,6 +231,8 @@ function utility(board,player) {
           setFound = true;
         }
       }
+
+      // Searches for column winning state
       if(j == 0 || j == 1 || j == 2){
         a = j;
         b = j +3;
@@ -238,6 +241,8 @@ function utility(board,player) {
           setFound = true;
         }
       }
+
+      // Searches for top left to bottom right diagonal winning state
       if(j == 0){
         a = j;
         b = j +4;
@@ -246,6 +251,8 @@ function utility(board,player) {
           setFound = true;
         }
       }
+
+      // Searches for top right to bottom left diagonal winning state
       if(j == 2){
         a = j;
         b = j +2;
@@ -259,38 +266,18 @@ function utility(board,player) {
   }
 
   let score = 0;
-  let num_moves =0;
+  let num_moves = 9 - numBlankSpaces;
+  
+  // Assigns highest score for winning with the least number of moves and the lowest score
+  // for losing with the least number of moves
   if (setFound) {
     if (board[a] == player) {
-       num_moves = 9 - numBlankSpaces;
-       console.log(num_moves);
-       if(num_moves >= 0 && num_moves <= 2){
-         score = 1;
-       }else if(num_moves > 2 && num_moves < 6){
-          score = 3;
-       }else{
-          score = 5;
-       }
-       console.log("Score for positive: "+  score);
-    } 
-    else {
-      num_moves = 9 - numBlankSpaces;
-      console.log(num_moves);
-       if(num_moves >= 0 && num_moves <= 2){
-         score = -1;
-       }else if(num_moves > 2 && num_moves < 6){
-          score = -3;
-       }else{
-          score = -5;
-       }
-       console.log("Score for negative: "+  score);
+       score = 10 - num_moves;
+    } else {
+      score = num_moves - 10;
     }
   } 
-
-  
-  
   return score;
-  
 }
 
 function tictactoe_minimax_alphabeta(board,cpu_player,cur_player,alpha,beta) {
@@ -302,63 +289,62 @@ function tictactoe_minimax_alphabeta(board,cpu_player,cur_player,alpha,beta) {
   *
   * Hint: Make sure you update the recursive function call to call this function!
   ***********************/
- if(is_terminal(board)) //Stop if game is over
+  if(is_terminal(board)) //Stop if game is over
   return {
     move:null,
     score:utility(board,cpu_player) //How good was this result for us?
   }
 
  // Initialize max and min scores and moves
- max_score = -Infinity;
- max_move = null;
- min_score = Infinity;
- min_move = null;
+  max_score = -Infinity;
+  max_move = null;
+  min_score = Infinity;
+  min_move = null;
 
 ++helper_expand_state_count; //DO NOT REMOVE
 //GENERATE SUCCESSORS//
 for(let move of move_expand_order) { //For each possible move (i.e., action)
- if(board[move]!=-1) continue; //Already taken, can't move here (i.e., successor not valid)
- 
- let new_board=board.slice(0); //Copy
- new_board[move]=cur_player; //Apply move
- //Successor state: new_board
- //console.log("Move: "+ move);
- //console.log("New Board: "+ new_board);
- //RECURSION
- // What will my opponent do if I make this move?
- let results=tictactoe_minimax(new_board,cpu_player,1-cur_player, alpha, beta);
+  if(board[move]!=-1) continue; //Already taken, can't move here (i.e., successor not valid)
 
- // Player has won at this point
+  let new_board=board.slice(0); //Copy
+  new_board[move]=cur_player; //Apply move
+  //Successor state: new_board
+
+  //RECURSION
+  // What will my opponent do if I make this move?
+  let results=tictactoe_minimax(new_board,cpu_player,1-cur_player, alpha, beta);
+
  // Finds next best move for CPU player
- if(cur_player == cpu_player){
-   if (results.score > max_score){
-     max_score = results.score;
-     max_move = move;
-   }
-   if (max_score > alpha) {
-    alpha = max_score; // if new "best" (highest) possible move for CPU player (MAX)
-   }
+  if(cur_player == cpu_player){
+    if (results.score > max_score){
 
- } 
- else {
-   if(results.score < min_score){
-     
-     min_score = results.score;
-     min_move = move; // if new "best" (lowest) possible move for human player (MIN)
-   }
+      max_score = results.score; // if new "best" (highest) possible move for CPU player (MAX)
+      max_move = move;
 
-   if (min_score < beta) {
-    beta = min_score;
-   }
+    }
+    if (results.score > alpha) {
+    alpha = results.score; 
+    }
+
+  } 
+  else {
+    if(results.score < min_score){
+      
+      min_score = results.score;
+      min_move = move; // if new "best" (lowest) possible move for human player (MIN)
+    }
+
+    if (results.score < beta) {
+    beta = results.score;
+    }
    
- }
+  }
 
- // Prune possible moves in tree if min's guaranteed value for MAX is less than 
- // alpha (CPU player or MAX's possible move) since we know MIN will not move to 
- // a location where MAX has the chance to get a higher score
- if (beta <= alpha) {
-  break;
-}
+ // Runs if guaranteed value for other player is "better" than all possible options 
+ // on current path
+  if (beta <= alpha) {
+    break;
+  }
 
  //MINIMAX
  /***********************
@@ -374,25 +360,20 @@ for(let move of move_expand_order) { //For each possible move (i.e., action)
  see how many moves it would take to win 
  */
 }
-
-   
-if(cur_player == cpu_player){
- console.log("CPU Move: "+ max_move+"CPU Score: "+max_score);
- return {
-   
-   move: max_move,
-   score: max_score
- };
-} 
-else { // if current player is human player
- console.log("CRU Move: "+ min_move+"CRU Score: "+min_score);
-return {
-   move: min_move,
-   score: min_score
- };
-}
- 
-
+  if(cur_player == cpu_player){
+    console.log("CPU Move: "+ max_move+"CPU Score: "+max_score);
+    return {
+      move: max_move,
+      score: max_score
+    };
+  } 
+  else { // if current player is human player
+    console.log("CRU Move: "+ min_move+"CRU Score: "+min_score);
+    return {
+      move: min_move,
+      score: min_score
+    };
+  }
 }
 
 function debug(board,human_player) {
