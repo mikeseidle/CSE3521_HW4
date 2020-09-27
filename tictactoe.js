@@ -303,19 +303,18 @@ function tictactoe_minimax_alphabeta(board,cpu_player,cur_player,alpha,beta) {
 
 ++helper_expand_state_count; //DO NOT REMOVE
 //GENERATE SUCCESSORS//
-for(let move of move_expand_order) { //For each possible move (i.e., action)
-  if(board[move]!=-1) continue; //Already taken, can't move here (i.e., successor not valid)
+  for(let move of move_expand_order) { //For each possible move (i.e., action)
+    if(board[move]!=-1) continue; //Already taken, can't move here (i.e., successor not valid)
 
-  let new_board=board.slice(0); //Copy
-  new_board[move]=cur_player; //Apply move
-  //Successor state: new_board
+    let new_board=board.slice(0); //Copy
+    new_board[move]=cur_player; //Apply move
+    //Successor state: new_board
 
-  //RECURSION
-  // What will my opponent do if I make this move?
-  let results=tictactoe_minimax(new_board,cpu_player,1-cur_player, alpha, beta);
+    //RECURSION
+    // What will my opponent do if I make this move?
+    let results=tictactoe_minimax(new_board,cpu_player,1-cur_player, alpha, beta);
 
- // Finds next best move for CPU player
-  if(cur_player == cpu_player){
+    // Finds next best move for CPU player
     if (results.score > max_score){
 
       max_score = results.score; // if new "best" (highest) possible move for CPU player (MAX)
@@ -323,7 +322,7 @@ for(let move of move_expand_order) { //For each possible move (i.e., action)
 
     }
     if (max_score > alpha) {
-    alpha = max_score; 
+      alpha = max_score; 
     }
 
     // Runs if guaranteed value for other player is "better" than all possible options 
@@ -332,8 +331,6 @@ for(let move of move_expand_order) { //For each possible move (i.e., action)
       break;
     }
 
-  } 
-  else {
     if(results.score < min_score){
       
       min_score = results.score;
@@ -348,25 +345,23 @@ for(let move of move_expand_order) { //For each possible move (i.e., action)
     if (beta <= alpha) {
       break;
     }
-   
   }
 
 
+  //MINIMAX
+  /***********************
+   * TASK: Implement minimax here. (What do you do with results.move and results.score ?)
+   * 
+   * Hint: You will need a little code outside the loop as well, but the main work goes here.
+   *
+   * Hint: Should you find yourself in need of a very large number, try Infinity or -Infinity
+   ***********************/
 
- //MINIMAX
- /***********************
- * TASK: Implement minimax here. (What do you do with results.move and results.score ?)
- * 
- * Hint: You will need a little code outside the loop as well, but the main work goes here.
- *
- * Hint: Should you find yourself in need of a very large number, try Infinity or -Infinity
- ***********************/
-
- /*
- We need to take the orginal board and generate all possible moves and from those moves
- see how many moves it would take to win 
- */
-}
+  /*
+  We need to take the orginal board and generate all possible moves and from those moves
+  see how many moves it would take to win 
+  */
+  
   if(cur_player == cpu_player){
     console.log("CPU Move: "+ max_move+"CPU Score: "+max_score);
     return {
