@@ -322,8 +322,14 @@ for(let move of move_expand_order) { //For each possible move (i.e., action)
       max_move = move;
 
     }
-    if (results.score > alpha) {
-    alpha = results.score; 
+    if (max_score > alpha) {
+    alpha = max_score; 
+    }
+
+    // Runs if guaranteed value for other player is "better" than all possible options 
+    // on current path
+    if (beta <= alpha) {
+      break;
     }
 
   } 
@@ -334,17 +340,18 @@ for(let move of move_expand_order) { //For each possible move (i.e., action)
       min_move = move; // if new "best" (lowest) possible move for human player (MIN)
     }
 
-    if (results.score < beta) {
-    beta = results.score;
+    if (min_score < beta) {
+    beta = min_score;
+    }
+    // Runs if guaranteed value for other player is "better" than all possible options 
+    // on current path
+    if (beta <= alpha) {
+      break;
     }
    
   }
 
- // Runs if guaranteed value for other player is "better" than all possible options 
- // on current path
-  if (beta <= alpha) {
-    break;
-  }
+
 
  //MINIMAX
  /***********************
