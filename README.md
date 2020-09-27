@@ -31,8 +31,8 @@ How do the two algorithms compare?
 
 Results with new move_expand_order:
 
-    Nodes expanded with Minimax: 
+    Nodes expanded with Minimax: Evaluated 549946 states, Expanded 294778 states
 
-    Nodes expanded with Minimax + Alpha-Beta Pruning:
+    Nodes expanded with Minimax + Alpha-Beta Pruning: Evaluated 549946 states, Expanded 294778 states
 
 How do the results change? Why do you get this result?
