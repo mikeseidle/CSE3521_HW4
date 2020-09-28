@@ -1,3 +1,5 @@
+//THIS WAS TEMPORARYU AND NOT NEEDED FOR FINAL SOLUTIONS
+
 function is_terminal(board) {
     ++helper_eval_state_count; //DO NOT REMOVE
     
