@@ -24,17 +24,17 @@ CPU move #4: (Evaluated 4 states, Expanded 2 states)
 f) 
     Nodes expanded with Minimax: 294778 states
 
-    Nodes expanded with Minimax + Alpha-Beta Pruning: 294778 states
+    Nodes expanded with Minimax + Alpha-Beta Pruning: 31974 states
 
 How do the two algorithms compare?
+The number of expanded states dramatically decreased with alpha-beta pruning as expected. This is because alpha-beta pruning allows us to eliminate branches of the search tree that cannot possibly affect the final minimax decision without checking their states to improve searching efficiency. 
 
 
 Results with new move_expand_order:
 
-    Nodes expanded with Minimax: Evaluated 549946 states, Expanded 294778 states
+    Nodes expanded with Minimax: expanded 294778 states
 
-    Nodes expanded with Minimax + Alpha-Beta Pruning: Evaluated 55506 states, Expanded 29634 states
+    Nodes expanded with Minimax + Alpha-Beta Pruning: expanded 29634 states
 
 How do the results change? Why do you get this result?
-
-The number of evaluate and expanded states dramatically decreased. This is because with Aplha Beta we are not looking at states that wont make a difference so we get to skip over them and reduce our total counts. So this works according to what we thought. 
+The number of states expanded for alpha-beta pruning decreased with the new move_expand_order configuration as expected, as those states that are more likely to give a desired result are checked first when expanding new states. This in turn improves searching efficiency.
