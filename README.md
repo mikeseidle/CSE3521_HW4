@@ -13,7 +13,7 @@ Over the course of the game, the number of states evaluated decreases. This is t
 
 e)
 
-The game ddoes play I as expect. The epxanded shrinks by a good amount from standard minimax. Also good moves are made to prevent the human from winning. Not always the best best move but for easy choices to prevent wins it works as expected. 
+The game does play I as expect. The expanded shrinks by a good amount from standard minimax. Also good moves are made to prevent the human from winning. Not always the best best move but for easy choices to prevent wins it works as expected. 
 
 CPU move #1: (Evaluated 55505 states, Expanded 29633 states)
 CPU move #2: (Evaluated 959 states, Expanded 510 states)
