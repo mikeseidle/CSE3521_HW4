@@ -36,3 +36,5 @@ Results with new move_expand_order:
     Nodes expanded with Minimax + Alpha-Beta Pruning: Evaluated 55506 states, Expanded 29634 states
 
 How do the results change? Why do you get this result?
+
+The number of evaluate and expanded states dramatically decreased. This is because with Aplha Beta we are not looking at states that wont make a difference so we get to skip over them and reduce our total counts. So this works according to what we thought. 
